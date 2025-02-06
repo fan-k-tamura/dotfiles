@@ -541,3 +541,7 @@ endif
 
 " Some plugin seems to search for something at startup, so this fixes that.
 silent! nohlsearch
+
+" Use System clipboard
+set clipboard=unnamed
+
