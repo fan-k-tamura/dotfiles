@@ -119,6 +119,7 @@ alias ZshRehash='. ~/.zshrc'
 alias aag='agg'
 alias agg='_agg () { rg --group $@ | less }; _agg'
 alias aurl='adb shell am start -a "android.intent.action.VIEW" -d'
+alias b='bat'
 alias bc='bc -l'
 alias co-='git checkout -'
 alias com='git checkout main'
@@ -177,6 +178,7 @@ alias ghs='git stash save'
 alias ghsp='git stash save --patch'
 alias ghw='git stash show -p'
 alias gist='gist -p -c'
+alias gitignoregen='_gitignoregen () { curl -sL "https://www.toptal.com/developers/gitignore/api/$1" }; _gitignoregen'
 alias gk='gitk &>/dev/null'
 alias gl1='git log -n 1'
 alias gl='git quicklog -n 12'
@@ -206,6 +208,7 @@ alias gsmu='git submodule update --init --recursive'
 alias gss='git show -p --stat'
 alias gt='git tag'
 alias gu='git unstage'
+alias gun='git unstage'
 alias gundo='git undo'
 alias gup='git up'
 alias gus='git unstage'
@@ -256,7 +259,7 @@ alias vh=VBoxHeadless
 alias vimsql="vim -c 'set ft=sql'"
 alias wgetdir='wget -r -l1 -P035 -nd --no-parent'
 alias wip='git add -A ; git commit --all --no-verify -m WIP'
-alias x='screen -A -x'
+alias x='bat'
 alias yad='yarn add -D'
 alias ye='yarn exec'
 alias yeshist='HISTFILE=~/.zsh_history'
@@ -518,15 +521,7 @@ sci() {
 
 # Interactive git checkout with most recent branches last
 gco() {
-  local selected=$(_fzf_git_each_ref --no-multi --sort=committerdate)
-  [ -n "$selected" ] && git checkout "$selected"
-  return
-
-  local branch="$(git branch --sort=committerdate | tr -d '* ' | fzf --tac)"
-  if [ "$?" != "0" ] || [ "$branch" = "" ]; then
-    return
-  fi
-  git checkout "$branch"
+  _fzf_git_each_ref --no-multi | xargs git checkout
 }
 
 dance() {
@@ -698,7 +693,7 @@ local __newline="
 if [ "$EUID" = "0" ]; then
   __sigil="# "
 elif `echo $LANG | grep -E -i 'utf-?8' &>/dev/null`; then
-  __sigil="〉"
+  __sigil="❯ "
 else
   __sigil="%# "
 fi
@@ -798,7 +793,7 @@ if [ -e "$HOME/.ssh/config" -a ! -e "$HOME/.ssh/skip-host-aliases" ]; then
 fi
 
 # Fix SSH auth socket location so agent forwarding works with tmux.
-if test "$SSH_AUTH_SOCK" ; then
+if test "$SSH_AUTH_SOCK" && [ ! -e ~/.ssh/ssh_auth_sock ] ; then
   ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
 
