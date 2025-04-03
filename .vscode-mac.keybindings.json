@@ -468,6 +468,7 @@
     "key": "ctrl+shift+cmd+[",
     "command": "workbench.action.showPreviousWindowTab"
   },
+/*
   {
     "key": "shift+cmd+r",
     "command": "workbench.action.tasks.runTask"
@@ -480,6 +481,7 @@
     "key": "ctrl+shift+cmd+p",
     "command": "git.push"
   },
+*/
   {
     "key": "cmd+y",
     "command": "-aichat.newfollowupaction"
