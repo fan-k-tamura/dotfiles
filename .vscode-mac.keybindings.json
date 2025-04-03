@@ -389,11 +389,13 @@
   },
   {
     "key": "shift+cmd+right",
-    "command": "workbench.action.moveEditorToNextGroup"
+    "command": "workbench.action.moveEditorToNextGroup",
+    "when": "editorTextFocus"
   },
   {
     "key": "shift+cmd+left",
-    "command": "workbench.action.moveEditorToPreviousGroup"
+    "command": "workbench.action.moveEditorToPreviousGroup",
+    "when": "editorTextFocus"
   },
   {
     "key": "ctrl+shift+cmd+r",
