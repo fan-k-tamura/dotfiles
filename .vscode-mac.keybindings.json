@@ -186,6 +186,11 @@
     "when": "editorTextFocus"
   },
   {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight",
+    "when": "!terminalFocus && !inChat"
+  },
+  {
     "key": "shift+cmd+c",
     "command": "-workbench.action.terminal.openNativeConsole",
     "when": "!terminalFocus"
