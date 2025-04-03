@@ -461,6 +461,14 @@
     "command": "-actions.findWithSelection"
   },
   {
+    "key": "ctrl+shift+cmd+]",
+    "command": "workbench.action.showNextWindowTab"
+  },
+  {
+    "key": "ctrl+shift+cmd+[",
+    "command": "workbench.action.showPreviousWindowTab"
+  },
+  {
     "key": "shift+cmd+r",
     "command": "workbench.action.tasks.runTask"
   },
