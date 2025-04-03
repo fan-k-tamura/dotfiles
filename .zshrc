@@ -685,6 +685,10 @@ gco() {
   _fzf_git_each_ref --no-multi | xargs git checkout
 }
 
+gsw() {
+  _fzf_git_each_ref --no-multi | xargs git switch "$@"
+}
+
 dance() {
   perl -e'$|++;@x=qw[🯅 🯆 🯇 🯈];$_=0;do{print"\e[9D$x[$_++%4] ";sleep 1}while(1)'
 }
