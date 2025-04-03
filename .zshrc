@@ -163,6 +163,7 @@ alias ca=cursor-agent
 alias cc='claude -c'
 alias co-='git checkout -'
 alias com='git checkout main'
+alias cod='git checkout develop'
 alias cr2lf="perl -pi -e 's/\x0d/\x0a/gs'"
 alias curlheaders='curl -s -D- -o/dev/null'
 alias curltime='curl -w "@$HOME/.curl-format" -o /dev/null -s'
