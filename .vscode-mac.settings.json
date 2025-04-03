@@ -7,16 +7,30 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[graphql]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.codeActionsOnSave": {
   },
   "breadcrumbs.enabled": true,
   "dotfiles.installCommand": "~/.dotfiles/install.zsh",
@@ -146,18 +160,14 @@
   "workbench.editor.tabSizing": "shrink",
   "workbench.editor.tabCloseButton": "off",
   "git.mergeEditor": true,
-  "[css]": {
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false
-  },
   "workbench.layoutControl.enabled": false,
   "window.nativeTabs": true,
   "editor.inlineSuggest.enabled": true,
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
     "plaintext": false,
-    "markdown": true
+    "markdown": true,
+    "yaml": true
   },
   "editor.autoSurround": "never",
   "editor.autoClosingQuotes": "never",
@@ -175,9 +185,6 @@
   },
   "vim.easymotion": true,
   "vim.easymotionDimBackground": false,
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "workbench.colorCustomizations": {
     "[Horizon Default]": {
       "sideBar.border": "#272833",
@@ -188,10 +195,6 @@
     }
   },
   "outline.collapseItems": "alwaysCollapse",
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "workbench.activityBar.location": "hidden",
   "godot_tools.editor_path": "/Applications/Godot.app/Contents/MacOS/Godot",
   "workbench.editor.tabActionCloseVisibility": false,
   "html.autoCreateQuotes": false,
@@ -238,5 +241,42 @@
   "rust-analyzer.inlayHints.chainingHints.enable": false,
   "rust-analyzer.inlayHints.closingBraceHints.enable": false,
   "chat.editing.alwaysSaveWithGeneratedChanges": true,
-  "rust-analyzer.inlayHints.renderColons": false
+  "rust-analyzer.inlayHints.renderColons": false,
+  "cline.vsCodeLmModelSelector": {},
+  "cSpell.customDictionaries": {
+    "custom-dictionary-user": {
+      "addWords": true,
+      "name": "custom-dictionary-user",
+      "path": "~/.cspell/custom-dictionary-user.txt",
+      "scope": "user"
+    }
+  },
+  "go.toolsManagement.autoUpdate": true,
+  "roo-cline.allowedCommands": [
+    "pnpm test",
+    "pnpm install",
+    "tsc",
+    "git log",
+    "git diff",
+    "git show"
+  ],
+  "githubPullRequests.pullBranch": "never",
+  "accessibility.voice.speechLanguage": "ja-JP",
+  "editor.inlineSuggest.suppressSuggestions": true,
+  "github.copilot.chat.followUps": "always",
+  "github.copilot.chat.scopeSelection": true,
+  "github.copilot.chat.codesearch.enabled": true,
+  "github.copilot.chat.codeGeneration.instructions": [],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Use conventional commit message format."
+    }
+  ],
+  "github.copilot.chat.completionContext.typescript.mode": "sidecar",
+  "github.copilot.chat.editor.temporalContext.enabled": true,
+  "github.copilot.chat.edits.temporalContext.enabled": true,
+  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [],
+  "github.copilot.chat.generateTests.codeLens": true,
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+  "github.copilot.chat.search.semanticTextResults": true
 }
