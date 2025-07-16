@@ -30,8 +30,26 @@
   "[graphql]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "editor.codeActionsOnSave": {
+  "[dockerfile]": {
+    // "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": false,
+      "comments": false,
+      "strings": false
+    }
+    // "editor.suggest.showWords": false,
+    // "editor.wordBasedSuggestions": "off",
+  },
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {},
   "breadcrumbs.enabled": true,
   "dotfiles.installCommand": "~/.dotfiles/install.zsh",
   "dotfiles.repository": "https://github.com/statico/dotfiles",
@@ -65,7 +83,7 @@
   },
   "editor.wordBasedSuggestionsMode": "currentDocument",
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "off",
   "emmet.showExpandedAbbreviation": "never",
   "eslint.format.enable": true,
   "eslint.rules.customizations": [
@@ -278,5 +296,30 @@
   "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [],
   "github.copilot.chat.generateTests.codeLens": true,
   "github.copilot.chat.languageContext.typescript.enabled": true,
-  "github.copilot.chat.search.semanticTextResults": true
+  "github.copilot.chat.search.semanticTextResults": true,
+  "chat.agent.maxRequests": 20,
+  "github.copilot.chat.agent.thinkingTool": true,
+  "chat.agent.enabled": true,
+  "terminal.integrated.env.osx": {},
+  "console-ninja.featureSet": "Community",
+  "security.workspace.trust.untrustedFiles": "open",
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "files.insertFinalNewline": true,
+  "github.copilot.nextEditSuggestions.fixes": true,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
+  "github.copilot.chat.languageContext.fix.typescript.enabled": true,
+  "github.copilot.chat.search.keywordSuggestions": true,
+  "jest.enable": false,
+  // "biome.lsp.bin": "/Users/k_tamura/.local/share/mise/installs/biome/1.9.4/biome"
+  "biome.requireConfigFile": true,
+  "docker.extension.enableComposeLanguageServer": false,
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "terminal.integrated.copyOnSelection": true,
+  "editor.inlineSuggest.suppressSuggestions": true,
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on"
+  }
 }

@@ -96,7 +96,7 @@ autocmd VimResized * :wincmd =
 
 " Search for the word under the cursor in the current directory
 nmap <M-k>    :Rg <C-R><C-W><CR>
-nmap <Esc>k   :Rg <C-R><C-W><CR>
+" nmap <Esc>k   :Rg <C-R><C-W><CR>
 nmap ˚        :Rg <C-R><C-W><CR>
 
 " Alt-W to delete a buffer and remove it from the list but keep the window via bufkill.vim
