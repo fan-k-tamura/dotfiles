@@ -180,11 +180,13 @@
     "command": "-editor.action.transposeLetters",
     "when": "textInputFocus && !editorReadonly"
   },
+  /*
   {
     "key": "ctrl+e",
     "command": "extension.goto-previous-buffer",
     "when": "editorTextFocus && vim.mode == 'Normal'"
   },
+  */
   {
     "key": "ctrl+l",
     "command": "workbench.action.navigateRight",
@@ -490,17 +492,21 @@
     "key": "cmd+y",
     "command": "aichat.newfollowupaction"
   },
+  /*
   {
     "key": "cmd+i",
     "command": "composerMode.agent"
   },
+  */
   {
     "key": "ctrl+cmd+e",
     "command": "testing.runAll"
   },
+  /*
   {
     "key": "shift+cmd+y",
     "command": "composer.closeComposerTab",
     "when": "composerFocused || focusedView =~ /^workbench.panel.aichat.view/"
   }
+  */
 ]
