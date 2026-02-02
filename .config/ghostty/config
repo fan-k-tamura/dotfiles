@@ -7,7 +7,7 @@ cursor-style = block
 cursor-style-blink = false
 font-family = Iosevka Term Medium
 font-style-bold = false
-font-size = 16
+font-size = 12
 bold-color = bright
 
 keybind = global:ctrl+backquote=toggle_quick_terminal
@@ -23,3 +23,6 @@ working-directory = home
 shell-integration-features = no-cursor, ssh-env
 
 keybind = shift+enter=text:\x1b\r
+
+copy-on-select = clipboard
+background-blur-radius = 10
