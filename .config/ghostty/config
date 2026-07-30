@@ -7,7 +7,7 @@ cursor-style = block
 cursor-style-blink = false
 font-family = Iosevka Term Medium
 font-style-bold = false
-font-size = 12
+font-size = 15
 bold-color = bright
 
 keybind = global:ctrl+backquote=toggle_quick_terminal
@@ -24,5 +24,10 @@ shell-integration-features = no-cursor, ssh-env
 
 keybind = shift+enter=text:\x1b\r
 
+# Ghostty has no editor setting: open_config hands the file to the OS default
+# editor. Override Cmd+, to type the vim command into the foreground shell.
+keybind = super+,=text:vim\x20~/.config/ghostty/config\r
+
+macos-option-as-alt = true
 copy-on-select = clipboard
 background-blur-radius = 10
