@@ -13,6 +13,7 @@
 .config/nvim/plugin/
 .cursor/
 .docker/
+.env
 .gvimlocal
 .postinstall
 .ropeproject
@@ -22,3 +23,5 @@
 .zsh-completions
 CLAUDE.local.md
 nvim.log
+personal.env
+secrets.env
