@@ -55,8 +55,9 @@ if [ -w ~/.zsh_history -o -w ~ ]; then
   HISTFILE=~/.zsh_history
 fi
 
-# Shush, brew.
+# Annoyances
 export HOMEBREW_NO_ENV_HINTS=1
+export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
 
 # APPLICATION CUSTOMIZATIONS {{{1
 
@@ -145,6 +146,12 @@ alias Ar='sudo apt remove'
 alias Arm='sudo apt autoremove'
 alias Arp='sudo apt remove --purge'
 alias As='apt search'
+alias Bi='brew install'
+alias Bl='brew list'
+alias Bs='brew search'
+alias Bu='brew uninstall'
+alias Bup='brew update'
+alias Bw='brew info'
 alias SC='vim ~/.ssh/config'
 alias VU='~/.vim/update.sh'
 alias NVU='~/.config/nvim/update.sh'
@@ -158,9 +165,9 @@ alias aurl='adb shell am start -a "android.intent.action.VIEW" -d'
 alias b='bat'
 alias bc='bc -l'
 alias bi='bun install'
-alias c=claude
+alias c='claude --permission-mode acceptEdits'
 alias ca=cursor-agent
-alias cc='claude -c'
+alias cc='claude -c --permission-mode acceptEdits'
 alias co-='git checkout -'
 alias com='git checkout main'
 alias cod='git checkout develop'
@@ -204,6 +211,7 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gdd='git difftool'
 alias gdt='git difftool'
+alias gdtom='git difftool origin/main'
 alias gdw='git diff -w'
 alias gdwd='git diff --word-diff'
 alias gec='code $(git diff-index --name-only HEAD)'
@@ -293,10 +301,10 @@ alias o=ollama
 alias p1='patch -p1'
 alias p='pnpm'
 alias pg_dump_cleanup="sed -e '/^$/d' -e '/^--/d' -e '/^SET/d'"
-alias pi='pnpm install'
 alias pkgcat='lsbom -f -l -s -pf'
 alias pkginstall='sudo installer -target / -pkg'
 alias pkgls='ls /var/db/receipts/'
+alias playwright='npx @playwright/mcp@latest --headless --isolated --browser chrome --port 8931'
 alias pnpm-update-everything='pnpm up --latest ; pnpm update ; pnpm self-update ; pnpm install'
 alias pt='pstree -pul'
 alias rake='noglob rake'
@@ -315,10 +323,11 @@ alias stt='git status -uall'
 alias t='tmux attach'
 alias tree="tree -F -A -I CVS"
 alias tt='tail -n 9999'
-alias urls="grep -Eo 'https?://[^ ]+' | sed 's/[^a-zA-Z0-9/:?&._=-]//g'"
+alias v='viu -w 50'
 alias ve='source .venv/bin/activate ; rehash'
 alias vimsql="vim -c 'set ft=sql'"
 alias wgetdir='wget -r -l1 -P035 -nd --no-parent'
+alias whois='echo whois is deprecated, try: rdap'
 alias wip='git add -A ; git commit --all --no-verify -m WIP'
 alias x='bat'
 alias yad='yarn add -D'
@@ -461,16 +470,34 @@ fi
 
 # FUNCTIONS {{{1
 
+# AI coding agent sandbox with https://nono.sh
+sb() {
+  local profile
+  local -a nono_args
+  # Suppress nono's on-exit "save these denials to your profile?" prompt for all
+  # paths. Only filters the suggestion; does not grant access or hide diagnostics.
+  nono_args=(--suppress-save-prompt /)
+  if [ $# -eq 0 ] || [[ $1 == -* ]]; then
+    profile=claude-code
+    nono_args+=(--allow-cwd)
+  else
+    profile=$1
+    shift
+  fi
+  nono run --profile $profile $nono_args -- env DISABLE_AUTOUPDATER=1 claude --dangerously-skip-permissions $@
+}
+
 # Generic helper to ask an LLM about anything - install glow for best results
-# Requires `llm`: https://llm.datasette.io/en/stable/
+# Uses ~/bin/llmcurl (plain curl + jq; picks a provider from ANTHROPIC_API_KEY,
+# GEMINI_API_KEY/GOOGLE_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY).
 ask() {
   if [ $# = 0 ]; then
     echo "usage: ask <some question>"
     return 1
   fi
-  if ! _has llm; then
-    echo "llm tool not installed, run 'uv tool install llm'"
-    return
+  if ! _has llmcurl; then
+    echo "llmcurl not installed (~/bin/llmcurl)"
+    return 1
   fi
   local formatter=cat
   if _has glow; then
@@ -479,7 +506,7 @@ ask() {
     formatter=md2term
   fi
   local system_prompt="We are on the command line for a system identified as \`$(uname -a)\` with locale \`$LANG\`. Answer the following question. Be brief and concise."
-  llm prompt -s "$system_prompt" "$*" | eval $formatter
+  llmcurl -s "$system_prompt" "$*" | eval $formatter
 }
 
 # Ask an LLM with WebSearch tool enabled
@@ -505,26 +532,37 @@ askw() {
     formatter=md2term
   fi
   local system_prompt="We are on the command line for a system identified as \`$(uname -a)\` with locale \`$LANG\`. Search the web and answer the following question. Be brief and concise."
-  llm prompt -T web_search -s "$system_prompt" "$*" | eval $formatter
+  llm prompt -T web_search -o max_tokens 4096 -s "$system_prompt" "$*" | eval $formatter
 }
 
 # AI helper for command line syntax, like "list subprocesses of pid 1234"
-# Requires `llm`: https://llm.datasette.io/en/stable/
+# Uses ~/bin/llmcurl (plain curl + jq; see `ask` above for provider setup).
 cmd() {
   if [ $# = 0 ]; then
     echo "usage: cmd <some command description>"
     return 1
   fi
-  if ! _has llm; then
-    echo "llm tool not installed, run 'uv tool install llm'"
-    return
+  if ! _has llmcurl; then
+    echo "llmcurl not installed (~/bin/llmcurl)"
+    return 1
   fi
-  local system_prompt="We are on the command line for a system identified as \`$(uname -a)\` with locale \`$LANG\` using shell \`$SHELL\`. Show me a command line command for the following in a code block. Be brief and concise. No comments."
-  local cmd
-  cmd=$(llm prompt -x -s "$system_prompt" "$*")
+  local system_prompt="We are on the command line for a system identified as \`$(uname -a)\` with locale \`$LANG\` using shell \`$SHELL\`. Show me a command line command for the following. Output ONLY the raw shell command with no explanation, no markdown, and no code fences."
+  local out
+  out=$(llmcurl -s "$system_prompt" "$*")
+
+  # Strip any stray markdown code-fence lines the model may have added.
+  local -a lines filtered=()
+  lines=("${(f)out}")
+  for l in $lines; do
+    [[ "$l" == '```'* ]] && continue
+    filtered+=("$l")
+  done
+  out="${(F)filtered}"
+  out="${out#"${out%%[![:space:]]*}"}"
+  out="${out%"${out##*[![:space:]]}"}"
 
   # Insert the command into the command line buffer
-  print -z "$cmd"
+  print -z "$out"
 }
 
 # Generate passwords
@@ -680,6 +718,23 @@ ggg() {
   hr done
 }
 
+# Fix the daily onslaught of dependabot warnings
+fixit() {
+  # Skip anything published in the last 24h
+  local cooldown=--config.minimum-release-age=1440
+  git checkout main && \
+  git pull --rebase origin && \
+  pnpm up --latest $cooldown && \
+  pnpm update $cooldown && \
+  pnpm self-update && \
+  pnpm install $cooldown && \
+  git add -A && \
+  git commit -m "${*:-Update dependencies}" && \
+  git push origin && \
+  git show -- package.json | cat && \
+  echo "done"
+}
+
 # Interactive git checkout with most recent branches last
 gco() {
   _fzf_git_each_ref --no-multi | xargs git checkout
@@ -722,6 +777,19 @@ dedent() {
   echo "Removed leading whitespace from clipboard content"
 }
 
+# Extract URLs from unstructured text (stdin or args).
+urls() {
+  local input
+  if (( $# > 0 )); then
+    input="$*"
+  else
+    input="$(cat)"
+  fi
+  print -r -- "$input" | grep -oE '(https?|ftp|file)://[^[:space:]<>"'\''`]+' \
+    | sed -E 's/[.,;:!?)\]}>]+$//' \
+    | awk '!seen[$0]++'
+}
+
 # ZSH-SPECIFIC COMPLETION {{{1
 
 # Add new Zsh Completions repo
@@ -747,7 +815,7 @@ zstyle ':completion:*:man:*' menu yes select
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*' use-perl true
-zstyle :compinstall filename '/Users/ian/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 
 autoload -Uz compinit
 # Only regenerate compinit dump once per day
@@ -758,6 +826,18 @@ else
 fi
 # End of lines added by compinstall
 # ---------------------------------------------
+
+# Completion for sb() — completes first arg with nono profile names.
+_sb() {
+  if (( CURRENT == 2 )); then
+    local -a profiles
+    profiles=(~/.config/nono/profiles/*.json(N:t:r))
+    _describe 'nono profile' profiles
+  else
+    _files
+  fi
+}
+compdef _sb sb
 
 # Ignore useless files, like .pyc.
 zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/).pyc'

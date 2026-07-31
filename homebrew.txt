@@ -4,14 +4,17 @@ eza
 fswatch
 fzf
 git
+git-delta
 jq
 neovim
 pv
+rdap
 ripgrep
 terminal-notifier
 tmux
 trash
 tree
+tree-sitter-cli
 xz
 zsh
 zsh-completions

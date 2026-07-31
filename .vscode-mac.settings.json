@@ -238,22 +238,6 @@
   "typescript.tsserver.maxTsServerMemory": 15000,
   "typescript.tsserver.log": "off",
   "typescript.tsserver.web.typeAcquisition.enabled": false,
-  "rust-analyzer.runnables.extraEnv": {
-    "LIBTORCH": "/Users/ian/dev/libtorch/2.5.0",
-    "DYLD_LIBRARY_PATH": "/Users/ian/dev/libtorch/2.5.0/lib"
-  },
-  "rust-analyzer.server.extraEnv": {
-    "LIBTORCH": "/Users/ian/dev/libtorch/2.5.0",
-    "DYLD_LIBRARY_PATH": "/Users/ian/dev/libtorch/2.5.0/lib"
-  },
-  "rust-analyzer.cargo.extraEnv": {
-    "LIBTORCH": "/Users/ian/dev/libtorch/2.5.0",
-    "DYLD_LIBRARY_PATH": "/Users/ian/dev/libtorch/2.5.0/lib"
-  },
-  "rust-analyzer.check.extraEnv": {
-    "LIBTORCH": "/Users/ian/dev/libtorch/2.5.0",
-    "DYLD_LIBRARY_PATH": "/Users/ian/dev/libtorch/2.5.0/lib"
-  },
   "rust-analyzer.inlayHints.parameterHints.enable": false,
   "rust-analyzer.inlayHints.typeHints.enable": false,
   "rust-analyzer.inlayHints.chainingHints.enable": false,
@@ -310,7 +294,6 @@
   "github.copilot.chat.languageContext.fix.typescript.enabled": true,
   "github.copilot.chat.search.keywordSuggestions": true,
   "jest.enable": false,
-  // "biome.lsp.bin": "/Users/k_tamura/.local/share/mise/installs/biome/1.9.4/biome"
   "biome.requireConfigFile": true,
   "docker.extension.enableComposeLanguageServer": false,
   "[ignore]": {

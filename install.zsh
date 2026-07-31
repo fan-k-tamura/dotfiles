@@ -63,11 +63,16 @@ fi
 
 cd "$basedir"
 
+if [ "$(uname -s)" = "Darwin" ] && which brew >/dev/null 2>&1; then
+  echo "◉ Installing Homebrew packages..."
+  brew install --quiet $(cat homebrew.txt)
+fi
+
 echo "→ Cleaning up dead symlinks..."
 find "$HOME" -maxdepth 1 -type l ! -exec test -e {} \; -delete
 [ -d "$bindir" ] && find "$bindir" -maxdepth 1 -type l ! -exec test -e {} \; -delete
 
-echo "⚡Updating common Zsh completions..."
+echo "↻ Updating common Zsh completions..."
 rm -rf .zsh-completions ~/.zcompdump
 git clone --quiet --depth=1 https://github.com/zsh-users/zsh-completions .zsh-completions
 
@@ -127,6 +132,9 @@ if [ -e "$HOME/Library" ]; then
   echo "⌨ Adding extra keybindings to macOS..."
   mkdir -p "$HOME/Library/KeyBindings"
   symlink "$basedir/DefaultKeyBinding.dict" "$HOME/Library/KeyBindings/DefaultKeyBinding.dict"
+
+  echo "⚙ Applying macOS defaults..."
+  "$basedir/bin/macos-setup"
 fi
 
 echo "◉ Setting up git..."
